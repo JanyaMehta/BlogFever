@@ -1,15 +1,19 @@
 import { useParams } from "react-router-dom";
 import useFetch from "./useFetch";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
+
 
 const BlogDetails = () => {
+ /* url was coming undefined with earlier code.
+ Since we're using real time databse,
+ used template strings and adding id as dynamic value while fetching url*/
 
  const {id}=useParams();
- const{ data:blog,  error , isPending } = useFetch('http://localhost:8000/blogs/'+ id);
+ const{ data:blog,  error , isPending } = useFetch(`${process.env.REACT_APP_FIREBASE_REALTIME_DATABASE_URL}/${id}.json`);
 const history=useHistory();
 
  const handleClick=()=>{
-   fetch('http://localhost:8000/blogs/'+ blog.id,{
+   fetch(`${process.env.REACT_APP_FIREBASE_REALTIME_DATABASE_URL}/${id}.json`,{
       method:'DELETE'
    }).then(()=>{
 

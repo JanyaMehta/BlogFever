@@ -1,22 +1,30 @@
 import {useState} from 'react'
 import { useHistory } from 'react-router-dom';
 
+// in real time databases, uses same property as in database to avoid errors and confusion. Local data had no issues,but in real time database write same name of properties as in databases.
+
 const Create = () => {
 
 const [title,setTitle] = useState('');
-const [content,setContent] = useState('');
+const [body,setBody] = useState('');
 const [author,setAuthor] = useState('mario');
 const [isPending,setIsPending] = useState(false);
 const history= useHistory();
 
+
 const handleSubmit =(e)=>{
 e.preventDefault();
-const blog ={title,content,author};
+const blog ={title,body,author};
+
+ /* Sometimes we can't access realtime databse due 
+ to CORS action. so we set mode to no cors */
 
 setIsPending(true);
-fetch('http://localhost:8000/blogs',{
+fetch(process.env.REACT_APP_FIREBASE_DATABASE_URL,{
    method:'POST',
-   headers:{"Content-Type":"application/json"},
+   mode:'no-cors',
+   headers:{"Content-Type":"application/json",
+},
    body: JSON.stringify(blog)
 }).then(()=>{
    console.log('new blog added');
@@ -44,10 +52,10 @@ history.push('/');
     <label >Blog Content:</label>
    <textarea
       required
-         value={content}
-         onChange={(e)=>setContent(e.target.value)}>
+         value={body}
+         onChange={(e)=>setBody(e.target.value)}>
    </textarea>
-   <label>Blod author:</label>
+   <label>Blog author:</label>
    <select 
    value={author}
    onChange={(e)=> setAuthor(e.target.value)}>
