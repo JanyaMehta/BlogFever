@@ -12,8 +12,8 @@ The BlogFever Website is a responsive web application developed using React. Key
 To Run the project
 
 1. Clone the Project
-2. npm install
-3. npm start
+2. Run `npm install`
+3. Run `npm start`
 
 
 It Runs the app in the development mode.
